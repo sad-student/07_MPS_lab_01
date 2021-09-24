@@ -109,8 +109,16 @@ void control_loop(){
 	while(1){
 		if((s_state & BIT7) ^ (P1IN & BIT7)){
 			// button 1 event
+#ifdef S2_INV_BEH
+			if(P2IN & BIT2){
+#else
 			if(~P2IN & BIT2){
+#endif
+#ifdef S1_INV_BEH
+				if(~P1IN & BIT7){
+#else
 				if(P1IN & BIT7){
+#endif
 					// LED5 off
 					P1OUT &= ~BIT2;
 
@@ -119,7 +127,11 @@ void control_loop(){
 					P1OUT |= BIT2;
 				}
 			}else{
+#ifdef S1_INV_BEH
+				if(~P1IN & BIT7){
+#else
 				if(P1IN & BIT7){
+#endif
 					// LED4 off
 					P1OUT &= ~BIT1;
 				}
@@ -128,7 +140,11 @@ void control_loop(){
 		}
 		if((s_state & BIT2) ^ (P2IN & BIT2)){
 			// button 2 event
+#ifdef S2_INV_BEH
+			if(P2IN & BIT2){
+#else
 			if(~P2IN & BIT2){
+#endif
 				// LED4 on
 				P1OUT |= BIT1;
 			}
